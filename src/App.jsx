@@ -13,8 +13,8 @@ function changeColor() {
   
     <BrowserRouter >
 
-    <div className='justify-center flex py-[90px] bg-blue-700  font-bold  text-white text-4xl ' >
-      <h1>Search cheap <span className=' border-amber-500 border-[1px] pb-1 rounded-lg px-4 text-2xl ' >- Flights -</span> and <span className=' border-amber-500 border-[1px] pb-1 rounded-lg px-4 text-2xl  ' >- Hotels -</span> </h1>
+    <div className='justify-center flex md:py-[90px] py-[50px] bg-blue-700  font-bold  text-white text-4xl  ' >
+      <h1 className='ml-4 m-2 '>Search cheap <span className=' border-amber-500 border-[2px] pb-1 rounded-lg px-4 text-2xl border-dashed' >- Flights -</span> and <span className=' border-amber-500 border-[2px] pb-1 rounded-lg px-4 text-2xl border-dashed  ' >- Hotels -</span> </h1>
     </div>
     
     <nav className='flex gap-4 justify-center bg-blue pb-[100px] bg-blue-700 rounded-bl-[700px] rounded-br-[700px]  '>

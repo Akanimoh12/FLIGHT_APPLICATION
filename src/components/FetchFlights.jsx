@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import Image1 from '../assets/img01.jpg'
+import Image2 from '../assets/img002.jpg'
 import './style.css';
 
 const FetchFlights = () => {
@@ -92,14 +94,15 @@ const FetchFlights = () => {
   return (
     <div className="App">
 
-      <div className="form-container">
-        <label>
-          From:
+      <div className="md:w-3/5 m-auto p-7 md:flex mt-[-50px] gap-1 ">
+        <label className='bg-amber-500 md:w-1/2 w-full p-2 h-12 rounded-tl-2xl md:rounded-bl-2xl flex font-bold ' >
+          From: 
           <input
             type="text"
             value={departureTimezone}
             onChange={handleDepartureTimezoneChange}
             placeholder=" America/New_York "
+            className='w-[90%] pl-1 ml-1 '
           />
           {matchingDepartureTimezones.length > 0 && (
             <div className="timezone-popup">
@@ -115,13 +118,15 @@ const FetchFlights = () => {
             </div>
           )}
         </label>
-        <label>
+
+        <label className='bg-amber-500 md:w-1/2 w-full p-2 h-12 md:rounded-tr-2xl rounded-br-2xl flex font-bold justify-between ' >
           To:
           <input
             type="text"
             value={arrivalTimezone}
             onChange={handleArrivalTimezoneChange}
             placeholder=" Europe/London "
+            className='w-[90%] pl-1 ml-1 '
           />
           {matchingArrivalTimezones.length > 0 && (
             <div className="timezone-popup">
@@ -154,7 +159,16 @@ const FetchFlights = () => {
               ))}
             </ul>
           ) : (
-            <p>No flights available for the given search criteria.</p>
+            // This is a simple image that will display before user will search
+            <div className='w-3/4 m-auto flex'>
+              <div>
+                <img src="" />
+              </div>
+
+              <div>
+
+              </div>
+            </div>
           )}
         </div> 
       )}
