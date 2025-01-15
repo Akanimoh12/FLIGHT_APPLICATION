@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import Image1 from '../assets/img01.jpg'
-import Image2 from '../assets/img002.jpg'
+import Image1 from '../assets/img01.jpg';
+import Image2 from '../assets/img002.jpg';
 import './style.css';
 
 const FetchFlights = () => {
@@ -19,7 +19,7 @@ const FetchFlights = () => {
 
     setLoading(true);
 
-    const url = `https://api.aviationstack.com/v1/flights?access_key=b4d4c355082ca18b47f4cd2ce0b0e8eb&departure_timezone=${departureTimezone}&arrival_timezone=${arrivalTimezone}`;
+    const url = `https://api.aviationstack.com/v1/flights?access_key=1abd489a722da6570ee1a39863148332&departure_timezone=${departureTimezone}&arrival_timezone=${arrivalTimezone}`;
 
     try {
       const response = await axios.get(url);
@@ -35,7 +35,7 @@ const FetchFlights = () => {
   const fetchMatchingTimezones = async (input, isDeparture) => {
     if (!input) return;
 
-    const url = `https://api.aviationstack.com/v1/airports?access_key=b4d4c355082ca18b47f4cd2ce0b0e8eb`;
+    const url = `https://api.aviationstack.com/v1/airports?access_key=1abd489a722da6570ee1a39863148332`;
 
     try {
       const response = await axios.get(url);
@@ -92,17 +92,16 @@ const FetchFlights = () => {
   };
 
   return (
-    <div className="App">
-
+    <div className="pb-3">
       <div className="md:w-3/5 m-auto p-7 md:flex mt-[-50px] gap-1 ">
-        <label className='bg-amber-500 md:w-1/2 w-full p-2 h-12 rounded-tl-2xl md:rounded-bl-2xl flex font-bold ' >
-          From: 
+        <label className="bg-amber-500 md:w-1/2 w-full p-2 h-12 rounded-tl-2xl md:rounded-bl-2xl flex font-bold">
+          From:
           <input
             type="text"
             value={departureTimezone}
             onChange={handleDepartureTimezoneChange}
             placeholder=" America/New_York "
-            className='w-[90%] pl-1 ml-1 '
+            className="w-[90%] pl-1 ml-1"
           />
           {matchingDepartureTimezones.length > 0 && (
             <div className="timezone-popup">
@@ -119,14 +118,14 @@ const FetchFlights = () => {
           )}
         </label>
 
-        <label className='bg-amber-500 md:w-1/2 w-full p-2 h-12 md:rounded-tr-2xl rounded-br-2xl flex font-bold justify-between ' >
+        <label className="bg-amber-500 md:w-1/2 w-full p-2 h-12 md:rounded-tr-2xl rounded-br-2xl flex font-bold justify-between">
           To:
           <input
             type="text"
             value={arrivalTimezone}
             onChange={handleArrivalTimezoneChange}
             placeholder=" Europe/London "
-            className='w-[90%] pl-1 ml-1 '
+            className="w-[90%] pl-1 ml-1"
           />
           {matchingArrivalTimezones.length > 0 && (
             <div className="timezone-popup">
@@ -145,32 +144,45 @@ const FetchFlights = () => {
       </div>
 
       {loading ? (
-        <p>Loading flights...</p>
+        <p className="justify-center text-center py-16 text-xl">Loading flights...</p>
       ) : (
         <div className="flight-results">
           {flights.length > 0 ? (
-            <ul>
+            <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
               {flights.map((flight, index) => (
-                <li key={index}>
+                <div key={index} className="rounded-lg p-2 border-2 h-auto w-56">
                   <h3>{flight.airline.name} - {flight.flight.iata}</h3>
                   <p>Departure: {flight.departure.airport} at {flight.departure.estimated}</p>
                   <p>Arrival: {flight.arrival.airport} at {flight.arrival.estimated}</p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
-            // This is a simple image that will display before user will search
-            <div className='w-3/4 m-auto flex'>
-              <div>
-                <img src="" />
+            <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
+              <div className="rounded-lg p-2 border-2 h-auto">
+                <img src={Image1} className="h-[200px] w-[300px]" />
+                <h1 className="text-3xl font-bold py-2">New York Airline</h1>
+                <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                  Book Now
+                </button>
               </div>
-
-              <div>
-
+              <div className="rounded-lg p-2 border-2 h-auto">
+                <img src={Image2} className="h-[200px] w-[300px]" />
+                <h1 className="text-3xl font-bold py-2">America Airline</h1>
+                <button className="bg-amber-500 p-2 font-semibold rounded-md text-white hover:bg-blue-500">
+                  Book Now
+                </button>
+              </div>
+              <div className="rounded-lg p-2 border-2 h-auto">
+                <img src={Image1} className="h-[200px] w-[300px]" />
+                <h1 className="text-3xl font-bold py-2">Belgium Airline</h1>
+                <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                  Book Now
+                </button>
               </div>
             </div>
           )}
-        </div> 
+        </div>
       )}
     </div>
   );
