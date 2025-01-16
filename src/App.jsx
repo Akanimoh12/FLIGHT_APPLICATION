@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Flights from './pages/Flights'
 import Hotels from './pages/Hotels'
+import ContactUS from './pages/ContactUS'
+import News from './pages/News'
+import AboutUs  from './pages/AboutUs'
 
 function App() {
 
@@ -26,6 +29,9 @@ function changeColor() {
       <Routes>
         <Route path="/" element={<Flights />} />
         <Route path="/Hotels" element={<Hotels />} />
+        <Route path="/ContactUs" element={<ContactUS />} />
+        <Route path="/News" element={<News />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
       </Routes>
     </div>
     </BrowserRouter>

@@ -92,7 +92,7 @@ const FetchFlights = () => {
   };
 
   return (
-    <div className="pb-3">
+    <div className="pb-5 py-5">
       <div className="md:w-3/5 m-auto p-7 md:flex mt-[-50px] gap-1 ">
         <label className="bg-amber-500 md:w-1/2 w-full p-2 h-12 rounded-tl-2xl md:rounded-bl-2xl flex font-bold">
           From:
