@@ -10,8 +10,8 @@ export default function AboutUs() {
           <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto  '>
 
               <div className=' sm:h-[400px] h-[350px] '>
-                <h1 className='font-bold text-3xl hover:text-4xl pb-5 pt-11 hover:border-b-2 '>About Aviaflights:</h1>
-                <p className='text-justify text-lg hover:text-xl'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                <h1 className='font-bold text-3xl hover:text-4xl pb-5 pt-11 border-b-2 '>About Aviaflights:</h1>
+                <p className='text-justify text-xl'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                     Fugiat ipsum vero facere perspiciatis cum itaque doloremque 
                     mollitia quisquam quod quaerat in, nemo dolor laboriosam 
                     consectetur minima qui? Eum est numquam natus eligendi 
