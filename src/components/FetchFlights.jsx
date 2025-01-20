@@ -19,7 +19,7 @@ const FetchFlights = () => {
 
     setLoading(true);
 
-    const url = `https://api.aviationstack.com/v1/flights?access_key=1abd489a722da6570ee1a39863148332&departure_timezone=${departureTimezone}&arrival_timezone=${arrivalTimezone}`;
+    const url = `https://api.aviationstack.com/v1/flights?access_key=1b7b57472856170c673b55aca8f63a21&departure_timezone=${departureTimezone}&arrival_timezone=${arrivalTimezone}`;
 
     try {
       const response = await axios.get(url);
@@ -35,7 +35,7 @@ const FetchFlights = () => {
   const fetchMatchingTimezones = async (input, isDeparture) => {
     if (!input) return;
 
-    const url = `https://api.aviationstack.com/v1/airports?access_key=1abd489a722da6570ee1a39863148332`;
+    const url = `https://api.aviationstack.com/v1/airports?access_key=1b7b57472856170c673b55aca8f63a21`;
 
     try {
       const response = await axios.get(url);
