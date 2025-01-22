@@ -5,7 +5,7 @@ import LaptopFlight from '../assets/laptopflight.png'
 
 export default function AboutUs() {
   return (
-    <div className='mt-[220px]  '>
+    <div className=' '>
 
           <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto  '>
 

@@ -2,190 +2,233 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Image1 from '../assets/img01.jpg';
 import Image2 from '../assets/img002.jpg';
-import './style.css';
+// import './style.css';
+
 
 const FetchFlights = () => {
-  // States for user input and fetched flight data
-  const [departureTimezone, setDepartureTimezone] = useState('');
-  const [arrivalTimezone, setArrivalTimezone] = useState('');
+  // State management
   const [flights, setFlights] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [matchingDepartureTimezones, setMatchingDepartureTimezones] = useState([]);
-  const [matchingArrivalTimezones, setMatchingArrivalTimezones] = useState([]);
+  const [uniqueLocations, setUniqueLocations] = useState([]);
+  const [filteredFlights, setFilteredFlights] = useState([]);
+  const [selectedDeparture, setSelectedDeparture] = useState('');
+  const [selectedArrival, setSelectedArrival] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showDepartureDropdown, setShowDepartureDropdown] = useState(false);
+  const [showArrivalDropdown, setShowArrivalDropdown] = useState(false);
 
-  // Function to fetch flight data from the AviationStack API
-  const fetchFlights = async () => {
-    if (!departureTimezone || !arrivalTimezone) return;
-
-    setLoading(true);
-
-    const url = `https://api.aviationstack.com/v1/flights?access_key=1b7b57472856170c673b55aca8f63a21&departure_timezone=${departureTimezone}&arrival_timezone=${arrivalTimezone}`;
-
-    try {
-      const response = await axios.get(url);
-      setFlights(response.data.data);
-    } catch (error) {
-      console.error('Error fetching flight data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Function to fetch available timezones based on the input keyword (for both departure and arrival)
-  const fetchMatchingTimezones = async (input, isDeparture) => {
-    if (!input) return;
-
-    const url = `https://api.aviationstack.com/v1/airports?access_key=1b7b57472856170c673b55aca8f63a21`;
-
-    try {
-      const response = await axios.get(url);
-      const allTimezones = response.data.data.map((airport) => airport.timezone);
-      const matchingTimezones = allTimezones.filter((timezone) =>
-        timezone.toLowerCase().includes(input.toLowerCase())
-      );
-      if (isDeparture) {
-        setMatchingDepartureTimezones(matchingTimezones.slice(0, 10)); // Limit to 10 results
-      } else {
-        setMatchingArrivalTimezones(matchingTimezones.slice(0, 10)); // Limit to 10 results
-      }
-    } catch (error) {
-      console.error('Error fetching timezones:', error);
-    }
-  };
-
-  // Effect to fetch flights whenever user inputs change
+  // Fetch flights data
   useEffect(() => {
-    fetchFlights();
-  }, [departureTimezone, arrivalTimezone]);
+    const fetchFlights = async () => {
+      try {
+        const response = await fetch(
+          'https://api.aviationstack.com/v1/flights?access_key=9f1f79c5fab08fb36fc13220275e4d2a'
+        );
+        const data = await response.json();
 
-  // Debounced function to fetch matching timezones (avoiding too many API calls)
-  const debounceFetchTimezones = useCallback(
-    (input, isDeparture) => {
-      const timeout = setTimeout(() => fetchMatchingTimezones(input, isDeparture), 500);
-      return () => clearTimeout(timeout);
-    },
-    []
-  );
+        if (data.data && data.data.length > 0) {
+          setFlights(data.data);
 
-  // Handle changes for the departure and arrival timezone inputs
-  const handleDepartureTimezoneChange = (e) => {
-    const value = e.target.value;
-    setDepartureTimezone(value);
-    debounceFetchTimezones(value, true); // Fetch matching departure timezones
-  };
+// Extract unique locations
+const locations = new Set();
+        http:data.data.forEach((flight) => {
+        if (flight.departure?.airport) locations.add(flight.departure.airport);
+        if (flight.arrival?.airport) locations.add(flight.arrival.airport);
+      });
 
-  const handleArrivalTimezoneChange = (e) => {
-    const value = e.target.value;
-    setArrivalTimezone(value);
-    debounceFetchTimezones(value, false); // Fetch matching arrival timezones
-  };
+  setUniqueLocations([...locations]);
+}
+setLoading(false);
+} catch (err) {
+  console.error('Error fetching flight data:', err);
+  setError('Failed to fetch flight data');
+  setLoading(false);
+}
+}; 
+fetchFlights();
+}, []);
 
-  // Handle click on timezone option to fill the input field
-  const handleTimezoneClick = (timezone, isDeparture) => {
-    if (isDeparture) {
-      setDepartureTimezone(timezone);
-      setMatchingDepartureTimezones([]); // Clear the matching options
+// Handle form submission
+const handleSubmit = () => {
+  if (selectedDeparture && selectedArrival) {
+    // Filter flights that exactly match departure and arrival locations
+    const exactMatches = flights.filter(
+      (flight) =>
+        flight.departure?.airport?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim() &&
+        flight.arrival?.airport?.toLowerCase().trim() === selectedArrival.toLowerCase().trim()
+    );
+
+    if (exactMatches.length > 0) {
+      setFilteredFlights(exactMatches);
     } else {
-      setArrivalTimezone(timezone);
-      setMatchingArrivalTimezones([]); // Clear the matching options
+      // Fallback: Show flights with the selected departure location only
+      const fallbackMatches = flights.filter(
+        (flight) =>
+          flight.departure?.airport?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim()
+      );
+      setFilteredFlights(fallbackMatches);
     }
-  };
 
-  return (
-    <div className="pb-5 py-5">
-      <div className="md:w-3/5 m-auto p-7 md:flex md:mt-[150px] mt-[150px] gap-1 ">
-        <label className="bg-amber-500 md:w-1/2 w-full p-2 h-12 rounded-tl-2xl md:rounded-bl-2xl flex font-bold">
-          From:
-          <input
-            type="text"
-            value={departureTimezone}
-            onChange={handleDepartureTimezoneChange}
-            placeholder=" America/New_York "
-            className="w-[90%] pl-1 ml-1"
-          />
-          {matchingDepartureTimezones.length > 0 && (
-            <div className="timezone-popup">
-              {matchingDepartureTimezones.map((tz, index) => (
+    setFormSubmitted(true);
+  } else {
+    console.error("Please select both departure and arrival locations.");
+  }
+};
+
+return (
+  <div className='px-[40px] font-serif'>
+    <div className="max-w-[1200px] mx-auto p-6 bg-white rounded-lg shadow-lg">
+      {/* <div className="flex items-center gap-4 border border-gray-300 w-[180px] h-[50px] rounded-[10px] hover:cursor-pointer hover:text-blue-400">
+        <i className="fa fa-fighter-jet" aria-hidden="true"></i>
+        <h1 className="text-[17px] w-[140px] py-2 font-bold mb-6 mt-4">Book a flight</h1>
+      </div> */}
+
+      {loading && <div>Loading...</div>}
+      {error && <div className="text-red-500">{error}</div>}
+
+      {!loading && !error && (
+        <div>
+          {/* <h2 className="text-xl font-semibold mb-4">Search for Flights</h2> */}
+          <div className="space-y-4">
+            {/* Departure Dropdown */}
+            <div>
+              <label className="block text-lg font-medium">Departure Location:</label>
+              <input
+                type="text"
+                value={selectedDeparture}
+                onClick={() => setShowDepartureDropdown(!showDepartureDropdown)}
+                readOnly
+                placeholder="Select departure location"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {showDepartureDropdown && (
+                <ul className="mt-2 bg-white shadow-md border border-gray-300 rounded-md max-h-[200px] overflow-y-auto">
+                  {uniqueLocations.map((location, index) => (
+                  <li key={index}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedDeparture(location);
+                        setShowDepartureDropdown(false);
+                      }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                    >
+                      {location}
+                    </button>
+                  </li>
+))}
+                </ul>
+              )}
+            </div>
+
+            {/* Arrival Dropdown */}
+            <div>
+              <label className="block text-lg font-medium">Arrival Location:</label>
+              <input
+                type="text"
+                value={selectedArrival}
+                onClick={() => setShowArrivalDropdown(!showArrivalDropdown)}
+                readOnly
+                placeholder="Select arrival location"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {showArrivalDropdown && (
+                <ul className="mt-2 bg-white shadow-md border border-gray-300 rounded-md max-h-[200px] overflow-y-auto">
+                  {uniqueLocations.map((location, index) => (
+                  <li key={index}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedArrival(location);
+                        setShowArrivalDropdown(false);
+                      }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                    >
+                      {location}
+                    </button>
+                  </li>
+))}
+                </ul>
+              )}
+            </div>
+
+            {/* Submit Button */}
+            <button
+              onClick={handleSubmit}
+              className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+            >
+              Submit
+            </button>
+          </div>
+
+          {/* Filtered Flights */}
+          {formSubmitted && filteredFlights.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-xl font-semibold">Available Flights</h2>
+              <div className="grid grid-cols-1 shadow-black shadow-md md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredFlights.map((flight, index) => (
                 <div
                   key={index}
-                  className="timezone-item"
-                  onClick={() => handleTimezoneClick(tz, true)}
+                  className="border p-4 rounded-lg shadow-md hover:bg-blue-50"
                 >
-                  {tz}
+                  <h3 className="text-lg font-bold">
+                    {flight.departure?.airport} to {flight.arrival?.airport}
+                  </h3>
+                  <p>Flight Number: {flight.flight?.number}</p>
+                  <p>Date: {flight.flight_date}</p>
+                  <p>Departure Time: {flight.departure?.scheduled}</p>
+                  <p>Arrival Time: {flight.arrival?.scheduled}</p>
                 </div>
-              ))}
+))}
+              </div>
+              {filteredFlights.some(
+                (flight) =>
+                  flight.arrival?.airport?.toLowerCase() !== selectedArrival.toLowerCase().trim()
+              ) && (
+                  <p className="text-sm text-gray-500 mt-4">
+                    Showing flights departing from {selectedDeparture}. No exact matches found for the selected arrival location.
+                  </p>
+                )}
             </div>
           )}
-        </label>
 
-        <label className="bg-amber-500 md:w-1/2 w-full p-2 h-12 md:rounded-tr-2xl rounded-br-2xl flex font-bold justify-between">
-          To:
-          <input
-            type="text"
-            value={arrivalTimezone}
-            onChange={handleArrivalTimezoneChange}
-            placeholder=" Europe/London "
-            className="w-[90%] pl-1 ml-1"
-          />
-          {matchingArrivalTimezones.length > 0 && (
-            <div className="timezone-popup">
-              {matchingArrivalTimezones.map((tz, index) => (
-                <div
-                  key={index}
-                  className="timezone-item"
-                  onClick={() => handleTimezoneClick(tz, false)}
-                >
-                  {tz}
-                </div>
-              ))}
-            </div>
-          )}
-        </label>
-      </div>
-
-      {loading ? (
-        <p className="justify-center text-center py-16 text-xl">Loading flights...</p>
-      ) : (
-        <div className="flight-results">
-          {flights.length > 0 ? (
-            <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
-              {flights.map((flight, index) => (
-                <div key={index} className="rounded-lg p-2 border-2 h-auto w-56">
-                  <h3>{flight.airline.name} - {flight.flight.iata}</h3>
-                  <p>Departure: {flight.departure.airport} at {flight.departure.estimated}</p>
-                  <p>Arrival: {flight.arrival.airport} at {flight.arrival.estimated}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
-              <div className="rounded-lg p-2 border-2 h-auto">
-                <img src={Image1} className="h-[200px] w-[300px]" />
-                <h1 className="text-3xl font-bold py-2">New York Airline</h1>
-                <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
-                  Book Now
-                </button>
-              </div>
-              <div className="rounded-lg p-2 border-2 h-auto">
-                <img src={Image2} className="h-[200px] w-[300px]" />
-                <h1 className="text-3xl font-bold py-2">America Airline</h1>
-                <button className="bg-amber-500 p-2 font-semibold rounded-md text-white hover:bg-blue-500">
-                  Book Now
-                </button>
-              </div>
-              <div className="rounded-lg p-2 border-2 h-auto">
-                <img src={Image1} className="h-[200px] w-[300px]" />
-                <h1 className="text-3xl font-bold py-2">Belgium Airline</h1>
-                <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
-                  Book Now
-                </button>
-              </div>
+          {formSubmitted && filteredFlights.length === 0 && (
+            <div className="mt-6 text-red-500">
+              No flights found for the selected locations.
             </div>
           )}
         </div>
       )}
     </div>
-  );
+
+      <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
+                    <div className="rounded-lg p-2 border-2 h-auto">
+                      <img src={Image1} className="h-[200px] w-[300px]" />
+                      <h1 className="text-3xl font-bold py-2">New York Airline</h1>
+                      <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                        Book Now
+                      </button>
+                    </div>
+                    <div className="rounded-lg p-2 border-2 h-auto">
+                      <img src={Image2} className="h-[200px] w-[300px]" />
+                      <h1 className="text-3xl font-bold py-2">America Airline</h1>
+                      <button className="bg-amber-500 p-2 font-semibold rounded-md text-white hover:bg-blue-500">
+                        Book Now
+                      </button>
+                    </div>
+                    <div className="rounded-lg p-2 border-2 h-auto">
+                      <img src={Image1} className="h-[200px] w-[300px]" />
+                      <h1 className="text-3xl font-bold py-2">Belgium Airline</h1>
+                      <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+      
+  
+  </div>
+);
 };
 
 export default FetchFlights;

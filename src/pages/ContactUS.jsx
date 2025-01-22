@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 
 export default function ContactUS() {
   return (
-    <div className='mt-[220px]  '>
+    <div className=' '>
 
                 <div>
                 <h1 className='font-bold text-3xl hover:text-4xl pb-5 border-b-2 text-center '>- Contact Us -</h1>

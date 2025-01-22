@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 
 export default function News() {
   return (
-      <div className='mt-[245px]  '>
+      <div className=' '>
 
           <div>
               <h1 className='font-bold text-3xl hover:text-4xl pb-5 border-b-2 text-center '> News Headline's </h1>
