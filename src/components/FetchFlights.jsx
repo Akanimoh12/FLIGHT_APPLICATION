@@ -202,25 +202,25 @@ return (
       )}
     </div>
 
-      <div className="w-[90%] py-12 m-auto flex flex-wrap gap-2 h-auto justify-center">
+      <div className="w-[90%] py-12 m-auto flex flex-wrap gap-4 h-auto justify-center">
                     <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image1} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">New York Airline</h1>
-                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
+                      <button className="bg-black w-full p-2 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>
                     <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image2} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">America Airline</h1>
-                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
+                      <button className="bg-black w-full p-2 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>
                     <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image1} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">Belgium Airline</h1>
-                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
+                      <button className="bg-black w-full p-2 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>

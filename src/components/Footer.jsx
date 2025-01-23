@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <div className='bg-gradient-to-r from-blue-500 to-blue-700 h-[260px] sm:h-[110px] sm:grid sm:grid-cols-3 ' >
+    <>
+    <div className='bg-blue-700 h-[260px] sm:h-[110px] sm:grid sm:grid-cols-3 w-full ' >
       
       <div className='gap-2 w-full justify-items-center'>
         <div className='justify-items-center sm:bg-white h-full text p-3 hover:text-black text-white sm:text-blue-500 '> 
@@ -22,9 +23,9 @@ export default function Footer() {
         <Link to='/ContactUs' className='hover:text-black'>Contact Us</Link>
       </div>
 
-      <div className='mt-4  text-white ' >
+      <div className='my-4 text-white ' >
         <h4 className='font-semibold text-center text-base hover:text-black '> Socials: </h4>
-        <div className='gap-4 flex justify-center text-4xl'>
+        <div className='gap-4 flex justify-center text-4xl '>
         <Link to='#' className='hover:text-black' ><i class="fa-brands fa-facebook "></i></Link>
         <Link to='#' className='hover:text-black'><i class="fa-brands fa-twitter"></i></Link>
         <Link to='#' className='hover:text-black'><i class="fa-brands fa-linkedin"></i></Link>
@@ -33,6 +34,12 @@ export default function Footer() {
         
       </div>
 
+
     </div>
+
+    <div className='bg-blue-700 border-t-2 w-full '>
+        <h4 className='text-center py-4 text-white font-bold'>Copyright @ 2024-2025</h4>
+      </div>
+    </>
   )
 }
