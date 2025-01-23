@@ -1,5 +1,6 @@
 import React from 'react'
 import Footer from '../components/Footer'
+import WhyUs from '../components/WhyUs'
 
 export default function ContactUS() {
   return (
@@ -58,6 +59,7 @@ export default function ContactUS() {
 
     
               </div>
+              <WhyUs/>
             <Footer/>
         </div>
   )

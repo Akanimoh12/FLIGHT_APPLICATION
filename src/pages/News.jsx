@@ -1,5 +1,6 @@
 import React from 'react'
 import Footer from '../components/Footer'
+import WhyUs from '../components/WhyUs'
 
 export default function News() {
   return (
@@ -159,7 +160,7 @@ export default function News() {
 
 
           </div>
-
+            <WhyUs/>
           <Footer />
       </div>
   )

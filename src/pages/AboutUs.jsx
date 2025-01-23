@@ -2,14 +2,15 @@ import React from 'react'
 import Footer from '../components/Footer'
 import GrassFlight from '../assets/grassflight.png'
 import LaptopFlight from '../assets/laptopflight.png'
+import WhyUs from '../components/WhyUs'
 
 export default function AboutUs() {
   return (
     <div className=' '>
 
-          <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto    '>
+          <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto  mt-[-100px] bg-opacity-85 bg-white rounded px-3  '>
 
-              <div className=' sm:h-[400px] h-[350px] '>
+              <div className=' sm:h-[400px] h-[350px] pl-3'>
                 <h1 className='font-bold text-3xl hover:text-4xl pb-5 pt-11 border-b-2 '>About Aviaflights:</h1>
                 <p className='text-justify text-xl'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
                     Fugiat ipsum vero facere perspiciatis cum itaque doloremque 
@@ -26,6 +27,7 @@ export default function AboutUs() {
               </div>
 
           </div>
+        <WhyUs/>
         <Footer/>
     </div>
   )
