@@ -23,7 +23,7 @@ const FetchFlights = () => {
     const fetchFlights = async () => {
       try {
         const response = await fetch(
-          'https://api.aviationstack.com/v1/flights?access_key=9f1f79c5fab08fb36fc13220275e4d2a'
+          'https://api.aviationstack.com/v1/flights?access_key=a615a61f42d90a810daa6f97eb79f2a0'
         );
         const data = await response.json();
 
@@ -32,9 +32,9 @@ const FetchFlights = () => {
 
 // Extract unique locations
 const locations = new Set();
-        http:data.data.forEach((flight) => {
-        if (flight.departure?.airport) locations.add(flight.departure.airport);
-        if (flight.arrival?.airport) locations.add(flight.arrival.airport);
+        data.data.forEach((flight) => {
+        if (flight.departure?.timezone) locations.add(flight.departure.timezone);
+        if (flight.arrival?.timezone) locations.add(flight.arrival.timezone);
       });
 
   setUniqueLocations([...locations]);
@@ -55,8 +55,8 @@ const handleSubmit = () => {
     // Filter flights that exactly match departure and arrival locations
     const exactMatches = flights.filter(
       (flight) =>
-        flight.departure?.airport?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim() &&
-        flight.arrival?.airport?.toLowerCase().trim() === selectedArrival.toLowerCase().trim()
+        flight.departure?.timezone?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim() &&
+        flight.arrival?.timezone?.toLowerCase().trim() === selectedArrival.toLowerCase().trim()
     );
 
     if (exactMatches.length > 0) {
@@ -65,7 +65,7 @@ const handleSubmit = () => {
       // Fallback: Show flights with the selected departure location only
       const fallbackMatches = flights.filter(
         (flight) =>
-          flight.departure?.airport?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim()
+          flight.departure?.timezone?.toLowerCase().trim() === selectedDeparture.toLowerCase().trim()
       );
       setFilteredFlights(fallbackMatches);
     }
@@ -166,25 +166,33 @@ return (
           {formSubmitted && filteredFlights.length > 0 && (
             <div className="mt-6">
               <h2 className="text-xl font-semibold">Available Flights</h2>
-              <div className="grid grid-cols-1 shadow-black shadow-md md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 shadow-black shadow-md md:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
                 {filteredFlights.map((flight, index) => (
                 <div
                   key={index}
                   className="border p-4 rounded-lg shadow-md hover:bg-blue-50"
                 >
+                  <p className='w-full bg-gray-600 h-20 text-center justify-items-center rounded-md '>
+              
+                      <p className='text-white font-bold'>{flight.departure?.timezone} </p>
+                    
+                  </p>
                   <h3 className="text-lg font-bold">
-                    {flight.departure?.airport} to {flight.arrival?.airport}
+                    {flight.departure?.timezone} to {flight.arrival?.timezone}
                   </h3>
-                  <p>Flight Number: {flight.flight?.number}</p>
-                  <p>Date: {flight.flight_date}</p>
-                  <p>Departure Time: {flight.departure?.scheduled}</p>
-                  <p>Arrival Time: {flight.arrival?.scheduled}</p>
+                  <p className='p-1'>Flight Number: {flight.flight?.number}</p>
+                  <p className='p-1'>Date: {flight.flight_date}</p>
+                  <p className='p-1'>Departure Airport: {flight.departure?.airport}</p>
+                  <p className='p-1'>Arrival Airport: {flight.arrival?.airport}</p>
+                  <button className="bg-gray-600 w-full p-2 mt-2 font-semibold rounded-md text-white hover:bg-black">
+                        Book Now
+                      </button>
                 </div>
 ))}
               </div>
               {filteredFlights.some(
                 (flight) =>
-                  flight.arrival?.airport?.toLowerCase() !== selectedArrival.toLowerCase().trim()
+                  flight.arrival?.timezone?.toLowerCase() !== selectedArrival.toLowerCase().trim()
               ) && (
                   <p className="text-sm text-gray-500 mt-4">
                     Showing flights departing from {selectedDeparture}. No exact matches found for the selected arrival location.
