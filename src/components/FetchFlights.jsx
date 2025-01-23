@@ -77,14 +77,14 @@ const handleSubmit = () => {
 };
 
 return (
-  <div className='px-[40px] font-serif'>
-    <div className="max-w-[1200px] mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <div className='px-[40px] font-[arial black] ' >
+    <div className="w-[90%] mx-auto p-6 bg-white shadow-lg mt-[-170px] rounded-md ">
       {/* <div className="flex items-center gap-4 border border-gray-300 w-[180px] h-[50px] rounded-[10px] hover:cursor-pointer hover:text-blue-400">
         <i className="fa fa-fighter-jet" aria-hidden="true"></i>
         <h1 className="text-[17px] w-[140px] py-2 font-bold mb-6 mt-4">Book a flight</h1>
       </div> */}
 
-      {loading && <div>Loading...</div>}
+      {loading && <div>Please hold, Loading...</div>}
       {error && <div className="text-red-500">{error}</div>}
 
       {!loading && !error && (
@@ -93,7 +93,7 @@ return (
           <div className="space-y-4">
             {/* Departure Dropdown */}
             <div>
-              <label className="block text-lg font-medium">Departure Location:</label>
+              <label className="block text-lg font-medium">From:</label>
               <input
                 type="text"
                 value={selectedDeparture}
@@ -124,7 +124,7 @@ return (
 
             {/* Arrival Dropdown */}
             <div>
-              <label className="block text-lg font-medium">Arrival Location:</label>
+              <label className="block text-lg font-medium">To:</label>
               <input
                 type="text"
                 value={selectedArrival}
@@ -156,9 +156,9 @@ return (
             {/* Submit Button */}
             <button
               onClick={handleSubmit}
-              className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+              className="mt-4 w-full py-2 rounded-md font-bold bg-blue-700 hover:bg-black text-white focus:outline-none"
             >
-              Submit
+             <i class="fa-solid fa-magnifying-glass mr-1"></i> Search Flights
             </button>
           </div>
 
@@ -202,25 +202,25 @@ return (
       )}
     </div>
 
-      <div className="w-4/5 m-auto flex flex-wrap gap-2 h-auto justify-center">
-                    <div className="rounded-lg p-2 border-2 h-auto">
+      <div className="w-[90%] py-12 m-auto flex flex-wrap gap-2 h-auto justify-center">
+                    <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image1} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">New York Airline</h1>
-                      <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>
-                    <div className="rounded-lg p-2 border-2 h-auto">
+                    <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image2} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">America Airline</h1>
-                      <button className="bg-amber-500 p-2 font-semibold rounded-md text-white hover:bg-blue-500">
+                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>
-                    <div className="rounded-lg p-2 border-2 h-auto">
+                    <div className="rounded-lg p-2 border-2 h-auto bg-white">
                       <img src={Image1} className="h-[200px] w-[300px]" />
                       <h1 className="text-3xl font-bold py-2">Belgium Airline</h1>
-                      <button className="bg-blue-500 p-2 font-semibold rounded-md text-white hover:bg-amber-500">
+                      <button className="bg-black w-full p-1 font-semibold rounded-md text-white hover:bg-blue-700">
                         Book Now
                       </button>
                     </div>

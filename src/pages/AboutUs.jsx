@@ -7,7 +7,7 @@ export default function AboutUs() {
   return (
     <div className=' '>
 
-          <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto  '>
+          <div className='sm:w-[80%] w-[90%] m-auto md:grid md:grid-cols-2 h-auto    '>
 
               <div className=' sm:h-[400px] h-[350px] '>
                 <h1 className='font-bold text-3xl hover:text-4xl pb-5 pt-11 border-b-2 '>About Aviaflights:</h1>

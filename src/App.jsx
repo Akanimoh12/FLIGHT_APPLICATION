@@ -15,16 +15,19 @@ function changeColor() {
 
   return (
   
-    <BrowserRouter >
+    <BrowserRouter  >
 
-    <div className='justify-center flex md:py-[50px] py-[50px]   font-bold  text-white text-4xl  ' >
-      <h1 className='ml-4 m-2 text-blue-700 '>Search cheap <span className=' border-amber-500 border-[2px] pb-1 rounded-lg px-4 text-2xl border-dashed' >- Flights -</span> and <span className=' border-amber-500 border-[2px] pb-1 rounded-lg px-4 text-2xl border-dashed  ' >- Hotels -</span> </h1>
+    <div className=' h-[500px] bg-[url("/src/assets/prof.jpg")]  bg-cover bg-center w-full '>
+      <div className='w-full '>
+        <h1 className='py-[50px] text-white text-center font-[arial black] font-bold text-5xl '>Search cheap flights and hotels </h1>
+      </div>
+
+      <div className='flex gap-4 justify-center bg-blue  mt-[20px] static'>
+        <Link to='/' className='bg-black p-[15px] px-7 rounded-s-full text-white font-bold hover:bg-white hover:text-black  ' onClick={changeColor} id='flights' > <div className='fa-solid fa-plane mr-1 '></div>  Flights</Link>
+        <Link to='/Hotels' className='bg-black p-[15px] px-7 rounded-e-full text-white font-bold hover:bg-white hover:text-black  ' > <div className='fa-solid fa-hotel mr-1 '></div> Hotels</Link>
+      </div>
+      
     </div>
-    
-    <nav className='flex gap-4 justify-center bg-blue pb-[60px]  mt-[-2px] static '>
-      <Link to='/' className='bg-blue-900 p-[20px] rounded-lg text-white font-bold hover:bg-amber-500  ' onClick={changeColor} id='flights' > <div className='fa-solid fa-plane mr-1 '></div>  Flights</Link>
-      <Link to='/Hotels' className='bg-blue-900 p-[20px] rounded-lg text-white font-bold hover:bg-amber-500 ' > <div className='fa-solid fa-hotel mr-1 '></div> Hotels</Link>
-    </nav>
 
     {/* <div className='w-full -mt-52 justify-items-end md:h-0 h[]'>
       <img src={GrassFlight} className='w-72 md:mr-20 hover:rotate-45 hidden md:block' />
