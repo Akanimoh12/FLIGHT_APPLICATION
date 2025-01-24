@@ -23,7 +23,7 @@ const FetchFlights = () => {
     const fetchFlights = async () => {
       try {
         const response = await fetch(
-          'https://api.aviationstack.com/v1/flights?access_key=a615a61f42d90a810daa6f97eb79f2a'
+          'https://api.aviationstack.com/v1/flights?access_key=a615a61f42d90a810daa6f97eb79f2a0'
         );
         const data = await response.json();
 
